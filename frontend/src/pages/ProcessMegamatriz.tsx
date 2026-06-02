@@ -54,7 +54,7 @@ export default function ProcessMegamatriz() {
     setResult(null)
     const start = Date.now()
     try {
-      const data = await processMegamatriz(mainFile, equivFile)
+      const data = await processMegamatriz(mainFile)
       const elapsed = Date.now() - start
       if (elapsed < 600) await new Promise((r) => setTimeout(r, 600 - elapsed))
       setResult(data)
@@ -237,7 +237,7 @@ export default function ProcessMegamatriz() {
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <StatsCard icon={FileJson} label="Cursos" value={result.stats.procesados} color="indigo" />
+            <StatsCard icon={FileJson} label="Cursos" value={result.stats.procesados} color="navy" />
             <StatsCard
               icon={AlertCircle}
               label="Errores totales"

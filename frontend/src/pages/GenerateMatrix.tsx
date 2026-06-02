@@ -19,7 +19,6 @@ import { useToast } from '../hooks/useToast'
 import {
   downloadBase64File,
   downloadCSV,
-  processMatrix,
   processMatrixFromData,
   type MatrixResult,
 } from '../services/api'
@@ -87,7 +86,9 @@ export default function GenerateMatrix() {
     setResult(null)
     const start = Date.now()
     try {
-      const res = await processMatrix(jsonFile)
+      const text = await jsonFile.text()
+      const data = JSON.parse(text)
+      const res = await processMatrixFromData(data)
       const elapsed = Date.now() - start
       if (elapsed < 600) await new Promise((r) => setTimeout(r, 600 - elapsed))
       setResult(res)
@@ -259,7 +260,7 @@ export default function GenerateMatrix() {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-3">
             <StatsCard icon={Grid3X3} label="Total filas" value={result.stats.totalFilas} color="emerald" />
-            <StatsCard icon={FileJson} label="Programas raíz" value={result.stats.programas} color="indigo" />
+            <StatsCard icon={FileJson} label="Programas raíz" value={result.stats.programas} color="navy" />
             <StatsCard
               icon={AlertCircle}
               label="Errores"
