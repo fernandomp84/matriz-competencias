@@ -1,6 +1,6 @@
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
-from services import config_service
+from ..services import config_service
 
 router = APIRouter(prefix="/config", tags=["config"])
 

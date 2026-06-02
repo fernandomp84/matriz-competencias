@@ -5,7 +5,7 @@ import re
 import pandas as pd
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
-from services import config_service, matriz_service, megamatriz_service
+from ..services import config_service, matriz_service, megamatriz_service
 
 router = APIRouter(prefix="/process", tags=["processing"])
 
