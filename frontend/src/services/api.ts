@@ -66,7 +66,7 @@ export interface EquivStatus {
 }
 
 const client = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://matriz-competencias.onrender.com/api',
   timeout: 180_000,
 })
 
