@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\fernandomp\\\\Downloads\\\\Python\" -Recurse -File)",
+      "Bash(Select-Object FullName, Length)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(mkdir -p \"c:/Users/fernandomp/Downloads/Python/backend/models\" \"c:/Users/fernandomp/Downloads/Python/backend/routers\" \"c:/Users/fernandomp/Downloads/Python/backend/services\" \"c:/Users/fernandomp/Downloads/Python/frontend/src/components\" \"c:/Users/fernandomp/Downloads/Python/frontend/src/pages\" \"c:/Users/fernandomp/Downloads/Python/frontend/src/services\" \"c:/Users/fernandomp/Downloads/Python/frontend/src/layouts\" \"c:/Users/fernandomp/Downloads/Python/frontend/src/hooks\")",
+      "WebFetch(domain:www.unisabana.edu.co)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\fernandomp\\\\Downloads\\\\Python\" -Force)",
+      "Bash(Select-Object Name, Mode)",
+      "Read(//c/c/Users/fernandomp/Downloads/Python/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\fernandomp\\Downloads\\Python\\backend"
+    ]
+  }
+}

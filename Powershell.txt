@@ -1,0 +1,6 @@
+cd "C:\Users\fernandomp\Downloads\Python\frontend"
+npm run dev
+
+
+cd "C:\Users\fernandomp\Downloads\Python\backend"
+python -m uvicorn main:app --reload --port 8000
