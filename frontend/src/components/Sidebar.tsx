@@ -50,7 +50,7 @@ export default function Sidebar() {
           >
             <img
               src="/logo.svg"
-              alt="Universidad de La Sabana"
+              alt="Logo"
               className="h-14 w-auto object-contain"
             />
           </motion.div>

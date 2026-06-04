@@ -50,7 +50,7 @@ export default function Dashboard() {
                 Matriz de Competencias
               </h1>
               <p className="mt-2 text-white/70 text-sm leading-relaxed max-w-xl">
-                Herramienta de procesamiento para la Megamatriz de Electivas de la Universidad de La Sabana. Genera automáticamente el JSON estructurado y la Matriz de Competencias CSV.
+                Herramienta de procesamiento para la Megamatriz de Electivas. Genera automáticamente el JSON estructurado y la Matriz de Competencias CSV.
               </p>
             </div>
             <div className="hidden md:flex flex-col items-end gap-2 shrink-0">
