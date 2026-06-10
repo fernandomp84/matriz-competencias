@@ -74,6 +74,24 @@ def a_int(valor, default: int = 0) -> int:
         return default
 
 
+def _buscar_columna_robusta(serie: pd.Series, nombre: str) -> str | None:
+    """Encuentra columna tolerando variaciones de tildes y espacios."""
+    nombre_norm = unicodedata.normalize("NFD", nombre.lower()).encode("ascii", "ignore").decode("ascii")
+    for col in serie.index:
+        col_norm = unicodedata.normalize("NFD", str(col).lower()).encode("ascii", "ignore").decode("ascii")
+        if col_norm == nombre_norm:
+            return col
+    return None
+
+
+def _get_seguro(serie: pd.Series, nombre: str, default=0):
+    """Obtiene valor tolerando problemas de encoding en nombres de columnas."""
+    if nombre in serie.index:
+        return serie.get(nombre, default)
+    col = _buscar_columna_robusta(serie, nombre)
+    return serie.get(col, default) if col else default
+
+
 def limpiar_str(valor) -> str:
     if es_vacio_estricto(valor):
         return ""
@@ -337,10 +355,10 @@ def construir_registro(fila, df_t2, df_t3, df_t5, mapa_tipo_registro, mapa_depar
         "horas": {
             "Directas": {
                 "FisicoSincronico": aula + otro,
-                "FisicoAsincronico": a_int(fila.get("Físico asincónico", 0)),
-                "VirtualSincronico": a_int(fila.get("Virtual sincónico", 0)),
-                "VirtualAsincronico": a_int(fila.get("Virtual asincónico", 0)),
-                "Hyflex": a_int(fila.get("Hyflex", 0)),
+                "FisicoAsincronico": a_int(_get_seguro(fila, "Físico asincónico", 0)),
+                "VirtualSincronico": a_int(_get_seguro(fila, "Virtual sincrónico", 0)),
+                "VirtualAsincronico": a_int(_get_seguro(fila, "Virtual asincrónico", 0)),
+                "Hyflex": a_int(_get_seguro(fila, "Hyflex", 0)),
             },
             "TeoricoPracticas": teor + htp,
             "Practicas": a_int(fila.get("Horas prácticas", 0)),
