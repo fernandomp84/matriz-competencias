@@ -431,12 +431,11 @@ def procesar(main_bytes: bytes, equiv_bytes: bytes, filename: str = "archivo.xls
     for idx, fila in df_t1.iterrows():
         fila_num = idx + 2
         id_siga_raw = fila.get("ID SIGA", None)
+
+        # Omitir filas sin ID SIGA sin reportar como error (simplemente no tienen dato)
         if es_vacio_estricto(id_siga_raw):
-            errores.append({
-                "hoja": "T1", "fila": fila_num,
-                "error": "no se puede procesar por falta de creación en siga",
-            })
             continue
+
         try:
             registro = construir_registro(
                 fila, df_t2, df_t3, df_t5,
@@ -444,10 +443,26 @@ def procesar(main_bytes: bytes, equiv_bytes: bytes, filename: str = "archivo.xls
             )
             resultado["data"][registro["idCursoSiga"]] = registro
             procesados += 1
-        except Exception as exc:
+        except KeyError as exc:
+            # Error real: columna no encontrada
             errores.append({
                 "hoja": "T1", "fila": fila_num,
-                "error": f"Error inesperado al procesar: {exc}",
+                "error": f"Columna no encontrada: {exc}",
+                "tipo": "COLUMNA_FALTANTE",
+            })
+        except ValueError as exc:
+            # Error real: dato inválido
+            errores.append({
+                "hoja": "T1", "fila": fila_num,
+                "error": f"Dato inválido: {exc}",
+                "tipo": "DATO_INVALIDO",
+            })
+        except Exception as exc:
+            # Error inesperado
+            errores.append({
+                "hoja": "T1", "fila": fila_num,
+                "error": f"Error inesperado: {exc}",
+                "tipo": "ERROR_INESPERADO",
             })
 
     try:
