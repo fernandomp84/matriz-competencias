@@ -75,10 +75,19 @@ def a_int(valor, default: int = 0) -> int:
 
 
 def _buscar_columna_robusta(serie: pd.Series, nombre: str) -> str | None:
-    """Encuentra columna tolerando variaciones de tildes y espacios."""
-    nombre_norm = unicodedata.normalize("NFD", nombre.lower()).encode("ascii", "ignore").decode("ascii")
+    """Encuentra columna tolerando variaciones de tildes, espacios y encoding."""
+    def normalizar_simple(s: str) -> str:
+        s = s.lower()
+        s = s.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")
+        s = s.replace("à", "a").replace("è", "e").replace("ì", "i").replace("ò", "o").replace("ù", "u")
+        s = s.replace("ä", "a").replace("ë", "e").replace("ï", "i").replace("ö", "o").replace("ü", "u")
+        s = s.replace("ã", "a").replace("õ", "o").replace("ñ", "n")
+        s = re.sub(r"[^a-z0-9]", "", s)
+        return s
+    
+    nombre_norm = normalizar_simple(nombre)
     for col in serie.index:
-        col_norm = unicodedata.normalize("NFD", str(col).lower()).encode("ascii", "ignore").decode("ascii")
+        col_norm = normalizar_simple(str(col))
         if col_norm == nombre_norm:
             return col
     return None
