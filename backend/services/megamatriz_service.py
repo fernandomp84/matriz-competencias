@@ -357,22 +357,33 @@ def construir_registro(fila, df_t2, df_t3, df_t5, mapa_tipo_registro, mapa_depar
     otro = a_int(fila.get("Otro", 0))
     teor = a_int(fila.get("Teórico", 0))
     htp = a_int(fila.get("Horas teórico-prácticas", 0))
+
+    # Precalcular horas directas para evitar problemas de encoding en el diccionario
+    horas_fisico_sin = aula + otro
+    horas_fisico_asin = a_int(_get_seguro(fila, "Físico asincrónico", 0))
+    horas_virtual_sin = a_int(_get_seguro(fila, "Virtual sincrónico", 0))
+    horas_virtual_asin = a_int(_get_seguro(fila, "Virtual asincrónico", 0))
+    horas_hyflex = a_int(_get_seguro(fila, "Hyflex", 0))
+    horas_practicas = a_int(fila.get("Horas prácticas", 0))
+    horas_hti = a_int(fila.get("Horas de trabajo independiente (HTI)", 0))
+    horas_total = a_int(fila.get("Horas totales (HTT)", 0))
+
     return {
         "idCursoSiga": id_siga,
         "nombreCurso": limpiar_str(fila.get("Módulo o espacio académico", "")),
         "creditos": a_int(fila.get("Créditos", 0)),
         "horas": {
             "Directas": {
-                "FisicoSincronico": aula + otro,
-                "FisicoAsincronico": a_int(_get_seguro(fila, "Físico asincónico", 0)),
-                "VirtualSincronico": a_int(_get_seguro(fila, "Virtual sincrónico", 0)),
-                "VirtualAsincronico": a_int(_get_seguro(fila, "Virtual asincrónico", 0)),
-                "Hyflex": a_int(_get_seguro(fila, "Hyflex", 0)),
+                "FisicoSincronico": horas_fisico_sin,
+                "FisicoAsincronico": horas_fisico_asin,
+                "VirtualSincronico": horas_virtual_sin,
+                "VirtualAsincronico": horas_virtual_asin,
+                "Hyflex": horas_hyflex,
             },
             "TeoricoPracticas": teor + htp,
-            "Practicas": a_int(fila.get("Horas prácticas", 0)),
-            "TrabajoIndependiente": a_int(fila.get("Horas de trabajo independiente (HTI)", 0)),
-            "Total": a_int(fila.get("Horas totales (HTT)", 0)),
+            "Practicas": horas_practicas,
+            "TrabajoIndependiente": horas_hti,
+            "Total": horas_total,
         },
         "departamento": {"nombre": dept_nombre, "codigo": dept_codigo},
         "idioma": limpiar_str(fila.get("Idioma", "")),
