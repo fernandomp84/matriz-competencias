@@ -17,7 +17,7 @@ export default function AppLayout() {
         </div>
         {/* Version Badge */}
         <div className="fixed bottom-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-          v4 ✓
+          v5 ✓
         </div>
       </div>
       <ToastContainer />
